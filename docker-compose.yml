@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  database:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: database-ecommerce
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_USER: ${MSSQL_SA_USER}
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - db-data:/var/opt/mssql
+volumes:
+  db-data: ~
+  logs-folder:
+    name: ${log_rabbitmq_management}
+    driver: local

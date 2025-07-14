@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-criacao-tabela-usuario" author="renan.duarte">
+        <sqlFile dbms="mssql" encoding="utf8" path="sqlserver/001-criacao-tabela-usuario.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="002-criacao-tabela-roles" author="renan.duarte">
+        <sqlFile dbms="mssql" encoding="utf8" path="sqlserver/002-criacao-tabela-roles.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="003-carga-inicial-roles" author="renan.duarte">
+        <sqlFile dbms="mssql" encoding="utf8" path="sqlserver/003-carga-inicial-roles.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="004-criacao-tabela-role" author="renan.duarte">
+        <sqlFile dbms="mssql" encoding="utf8" path="sqlserver/004-criacao-tabela-usuario-role.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+</databaseChangeLog>

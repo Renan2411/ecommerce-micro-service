@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: user-api
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433 #url para acesso ao banco sqlserver
+    username: sa
+    password: P@ssword123
+  liquibase:
+    change-log: classpath:/migration/database/master.xml
+    database-change-log-table: DATABASECHANGELOG
+    database-change-log-lock-table: DATABASECHANGELOGLOCK
+    liquibase-schema: usuario
