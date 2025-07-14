@@ -17,12 +17,16 @@ public class UsuarioService {
         return usuarioRepository.save(usuarioEntity);
     }
 
-    public boolean existePorCpf(String cpf){
+    public boolean existePorCpf(String cpf) {
         return usuarioRepository.existsByCpf(cpf);
     }
 
-    public Optional<UsuarioEntity> buscarPorId(Long id){
+    public Optional<UsuarioEntity> buscarPorId(Long id) {
         return usuarioRepository.findById(id);
+    }
+
+    public Optional<UsuarioEntity> buscarPorCpf(String cpf) {
+        return usuarioRepository.findByCpf(cpf);
     }
 
 }

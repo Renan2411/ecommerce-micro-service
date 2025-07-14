@@ -1,5 +1,7 @@
 package com.example.userapi.controller.usuario;
 
+import com.example.userapi.usecases.usuario.buscarporcpf.BuscarUsuarioPorCpfOutput;
+import com.example.userapi.usecases.usuario.buscarporcpf.BuscarUsuarioPorCpfUseCase;
 import com.example.userapi.usecases.usuario.buscarporid.BuscarUsuarioPorIdOutput;
 import com.example.userapi.usecases.usuario.buscarporid.BuscarUsuarioPorIdUseCase;
 import com.example.userapi.usecases.usuario.criar.CriarUsuarioInput;
@@ -29,6 +31,7 @@ public class UsuarioController {
 
     private final CriarUsuarioUseCase criarUsuarioUseCase;
     private final BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase;
+    private final BuscarUsuarioPorCpfUseCase buscarUsuarioPorCpfUseCase;
 
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Usuário criado com sucesso"),
@@ -40,10 +43,24 @@ public class UsuarioController {
         return new ResponseEntity<>(output, HttpStatus.CREATED);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Entrada inválida"),
+            @ApiResponse(code = 404, message = "Usuário não encontrado"),
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<BuscarUsuarioPorIdOutput> buscarPorId(@PathVariable("id") Long idUsuario){
+    public ResponseEntity<BuscarUsuarioPorIdOutput> buscarPorId(@PathVariable("id") Long idUsuario) {
         BuscarUsuarioPorIdOutput output = buscarUsuarioPorIdUseCase.executar(idUsuario);
         return new ResponseEntity<>(output, HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Entrada inválida"),
+            @ApiResponse(code = 404, message = "Usuário não encontrado"),
+    })
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<BuscarUsuarioPorCpfOutput> buscarPorCpf(@PathVariable("cpf") String cpfUsuario) {
+        BuscarUsuarioPorCpfOutput output = buscarUsuarioPorCpfUseCase.executar(cpfUsuario);
+        return new ResponseEntity(output, HttpStatus.OK);
     }
 
 }
