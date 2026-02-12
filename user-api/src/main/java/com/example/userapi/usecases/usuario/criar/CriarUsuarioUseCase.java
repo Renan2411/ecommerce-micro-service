@@ -12,6 +12,7 @@ import com.example.userapi.usecases.usuario.criar.converter.CriarUsuarioOutputCo
 import com.example.userapi.utils.validation.Validator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Objects;
 
@@ -23,6 +24,7 @@ public class CriarUsuarioUseCase {
     private final UsuarioService usuarioService;
     private final RoleService roleService;
     private final UsuarioRoleService usuarioRoleService;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final CriarUsuarioOutputConverter outputConverter;
 
     public CriarUsuarioOutput executar(CriarUsuarioInput entrada) {
@@ -58,10 +60,10 @@ public class CriarUsuarioUseCase {
 
     private UsuarioEntity criarUsuarioEntity(CriarUsuarioInput entrada) {
         return UsuarioEntity.builder()
-                .nome(entrada.getNome())
+                .name(entrada.getNome())
                 .cpf(entrada.getCpf())
                 .email(entrada.getEmail())
-                .senha(entrada.getSenha())
+                .password(passwordEncoder.encode(entrada.getSenha()))
                 .login(entrada.getLogin())
                 .dataNascimento(entrada.getDataNascimento())
                 .build();

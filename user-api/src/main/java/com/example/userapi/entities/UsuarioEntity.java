@@ -29,7 +29,7 @@ public class UsuarioEntity {
     private Long id;
 
     @Column(name = "us_nome")
-    private String nome;
+    private String name;
 
     @Column(name = "us_cpf")
     private String cpf;
@@ -41,7 +41,7 @@ public class UsuarioEntity {
     private String login;
 
     @Column(name = "us_senha")
-    private String senha;
+    private String password;
 
     @Column(name = "us_data_nascimento")
     private OffsetDateTime dataNascimento;

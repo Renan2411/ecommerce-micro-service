@@ -20,13 +20,15 @@ public class BuscarUsuarioPorCpfOutput {
     private Long id;
 
     @ApiModelProperty(value = "Nome do usuário", example = "Renan")
-    private String nome;
+    private String name;
 
     @ApiModelProperty(value = "Email do usuário", example = "renan@gmail.com")
     private String email;
 
     @ApiModelProperty(value = "Cpf do usuário", example = "12345")
     private String cpf;
+
+    private String password;
 
     @ApiModelProperty(value = "Login do usuário", example = "renan.duarte")
     private String login;

@@ -1,19 +1,28 @@
-### GET request with a header
-GET http://localhost:8080/usuarios/1
-Accept: application/json
+POST http://localhost:8765/auth/oauth/token
+Authorization: Basic myappname123 myappscret123
+Content-Type: application/x-www-form-urlencoded
+
+username = 222222222 &
+password = 123 &
+grant_type = password
 
 ### GET request with a header
-GET http://localhost:8080/usuarios/cpf/1111111111
-Accept: application/json
+GET http://localhost:8765/user-api/usuarios/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzA5MjkwOTgsInVzZXJfbmFtZSI6IlJlbmFuIER1YXJ0ZSIsImp0aSI6IjgzMDU5MTc3LWE0MjctNDZhZC05YWQwLTFhYTZlMjQ5ZjQwMCIsImNsaWVudF9pZCI6Im15YXBwbmFtZTEyMyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.p-vudz4vgDuM2qgxLthkQEnaRZ25d16xxNjV2dIcd8E
+
+### GET request with a header
+GET http://localhost:8765/user-api/usuarios/cpf/1111111111
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzA5MjkwOTgsInVzZXJfbmFtZSI6IlJlbmFuIER1YXJ0ZSIsImp0aSI6IjgzMDU5MTc3LWE0MjctNDZhZC05YWQwLTFhYTZlMjQ5ZjQwMCIsImNsaWVudF9pZCI6Im15YXBwbmFtZTEyMyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.p-vudz4vgDuM2qgxLthkQEnaRZ25d16xxNjV2dIcd8E
 
 ### Send POST request with json body
-POST http://localhost:8080/usuarios
+POST http://localhost:8765/user-api/usuarios
 Content-Type: application/json
 
 {
-  "nome": "Fabielly",
-  "email": "fabi@gmail.com",
-  "login": "fabi",
-  "cpf": "1111111111",
-  "senha": "fabi123"
+  "nome": "Renan Duarte",
+  "email": "renan@gmail.com",
+  "login": "renan.duarte",
+  "cpf": "222222222",
+  "senha": "123"
 }

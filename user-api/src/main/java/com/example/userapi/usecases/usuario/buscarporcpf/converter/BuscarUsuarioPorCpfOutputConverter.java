@@ -13,6 +13,8 @@ public class BuscarUsuarioPorCpfOutputConverter {
                 .email(usuarioEntity.getEmail())
                 .cpf(usuarioEntity.getCpf())
                 .login(usuarioEntity.getLogin())
+                .name(usuarioEntity.getName())
+                .password(usuarioEntity.getPassword())
                 .dataNascimento(usuarioEntity.getDataNascimento())
                 .build();
     }

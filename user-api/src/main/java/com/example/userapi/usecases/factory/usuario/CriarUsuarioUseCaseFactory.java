@@ -9,6 +9,7 @@ import com.example.userapi.usecases.usuario.criar.converter.CriarUsuarioOutputCo
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class CriarUsuarioUseCaseFactory {
@@ -18,11 +19,13 @@ public class CriarUsuarioUseCaseFactory {
     public CriarUsuarioUseCase criarUsuarioUseCase(UsuarioService usuarioService,
                                                    RoleService roleService,
                                                    UsuarioRoleService usuarioRoleService,
+                                                   BCryptPasswordEncoder passwordEncoder,
                                                    CriarUsuarioOutputConverter outputConverter) {
         return CriarUsuarioUseCase.builder()
                 .usuarioService(usuarioService)
                 .roleService(roleService)
                 .usuarioRoleService(usuarioRoleService)
+                .passwordEncoder(passwordEncoder)
                 .outputConverter(outputConverter)
                 .build();
     }
