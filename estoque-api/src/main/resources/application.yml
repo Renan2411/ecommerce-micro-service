@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: estoque-api
+  profile:
+    active: tet
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433 #url para acesso ao banco sqlserver
+    username: sa
+    password: P@ssword123
+  liquibase:
+    change-log: classpath:/migration/database/master.xml
+    database-change-log-table: DATABASECHANGELOG
+    database-change-log-lock-table: DATABASECHANGELOGLOCK
+    liquibase-schema: estoque
+
+server:
+  port: ${PORT:0}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}

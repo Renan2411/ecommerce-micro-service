@@ -60,7 +60,7 @@ public class UsuarioController {
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<BuscarUsuarioPorCpfOutput> buscarPorCpf(@PathVariable("cpf") String cpfUsuario) {
         BuscarUsuarioPorCpfOutput output = buscarUsuarioPorCpfUseCase.executar(cpfUsuario);
-        return new ResponseEntity(output, HttpStatus.OK);
+        return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
 }
