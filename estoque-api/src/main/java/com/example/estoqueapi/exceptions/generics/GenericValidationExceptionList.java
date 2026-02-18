@@ -1,6 +1,5 @@
 package com.example.estoqueapi.exceptions.generics;
 
-import com.example.userapi.exceptions.generics.GenericValidationException;
 import lombok.Data;
 
 import java.util.ArrayList;

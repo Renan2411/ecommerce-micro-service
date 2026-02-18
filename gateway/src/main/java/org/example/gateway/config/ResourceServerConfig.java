@@ -23,6 +23,7 @@ import java.util.List;
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] PUBLIC_PATH = {"/auth/oauth/token"};
+    private static final String[] PUBLIC_POST_PATH = {"/user-api/usuarios"};
     private static final String ADMIN_ROLE = "ADMIN";
     private static final List<String> HTTP_METHODS = List.of("POST", "GET", "PUT", "DELETE");
     private static final List<String> ALLOWED_ORIGINS = List.of("*");
@@ -41,6 +42,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(PUBLIC_PATH).permitAll()
+                .antMatchers(HttpMethod.POST, PUBLIC_POST_PATH).permitAll()
                 .anyRequest().authenticated();
 
         http.cors().configurationSource(corsConfigurationSource());
