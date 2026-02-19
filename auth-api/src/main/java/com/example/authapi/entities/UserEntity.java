@@ -1,5 +1,6 @@
 package com.example.authapi.entities;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
+@Builder
 public class UserEntity implements UserDetails, Serializable {
 
     private Long id;
