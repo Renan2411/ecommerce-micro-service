@@ -6,14 +6,17 @@ username = 222222222 &
 password = 123 &
 grant_type = password
 
+### POST
+POST http://localhost:8765/configuracao/permissoes
+
 ### GET request with a header
 GET http://localhost:8765/user-api/usuarios/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE1MDg1OTgsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImp0aSI6ImIxZjAzOTU3LWQyOGItNGY2YS05ODI5LTU4ZGRjNzdmYWQzYiIsImNsaWVudF9pZCI6Im15YXBwbmFtZTEyMyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.gn21Z4ao3dOsjSQvMg9aB5hVSkYX_U_1T933Dwbk5P0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE3MDQ4MjYsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImF1dGhvcml0aWVzIjpbIkNMSUVOVEUiXSwianRpIjoiODFmYTJjN2QtM2JhYS00MjAyLWFkY2QtODNlNjEyZjJiMmRmIiwiY2xpZW50X2lkIjoibXlhcHBuYW1lMTIzIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.DzGk8W2NWmRFZyhwXkLul3ppAa-8Vfk1t7TKibjHD7U
 
 ### GET request with a header
 GET http://localhost:8765/user-api/usuarios/cpf/1111111111
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE1MDg1OTgsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImp0aSI6ImIxZjAzOTU3LWQyOGItNGY2YS05ODI5LTU4ZGRjNzdmYWQzYiIsImNsaWVudF9pZCI6Im15YXBwbmFtZTEyMyIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.gn21Z4ao3dOsjSQvMg9aB5hVSkYX_U_1T933Dwbk5P0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE3MDQ4MjYsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImF1dGhvcml0aWVzIjpbIkNMSUVOVEUiXSwianRpIjoiODFmYTJjN2QtM2JhYS00MjAyLWFkY2QtODNlNjEyZjJiMmRmIiwiY2xpZW50X2lkIjoibXlhcHBuYW1lMTIzIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.DzGk8W2NWmRFZyhwXkLul3ppAa-8Vfk1t7TKibjHD7U
 
 ### Send POST request with json body
 POST http://localhost:8765/user-api/usuarios
@@ -21,8 +24,8 @@ Content-Type: application/json
 
 {
   "nome": "Renan Duarte",
-  "email": "renan@gmail.com",
+  "email": "renan3@gmail.com",
   "login": "renan.duarte",
-  "cpf": "222222222",
+  "cpf": "3333333",
   "senha": "123"
 }

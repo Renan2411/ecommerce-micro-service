@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -22,15 +23,17 @@ import java.util.List;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String[] PUBLIC_PATH = {"/auth/oauth/token"};
+    private static final String[] PUBLIC_PATH = {"/auth/oauth/token", "/configuracao/permissoes"};
     private static final String[] PUBLIC_POST_PATH = {"/user-api/usuarios"};
-    private static final String ADMIN_ROLE = "ADMIN";
     private static final List<String> HTTP_METHODS = List.of("POST", "GET", "PUT", "DELETE");
     private static final List<String> ALLOWED_ORIGINS = List.of("*");
     private static final List<String> ALLOWED_HEADERS = List.of("Authorization", "Cache-Control", "Content-Type");
 
     @Autowired
     private JwtTokenStore jwtTokenStore;
+
+    @Autowired
+    private DynamicAuthorizationFilter dynamicAuthorizationFilter;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -43,7 +46,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(PUBLIC_PATH).permitAll()
                 .antMatchers(HttpMethod.POST, PUBLIC_POST_PATH).permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .addFilterAfter(dynamicAuthorizationFilter, FilterSecurityInterceptor.class);
 
         http.cors().configurationSource(corsConfigurationSource());
     }

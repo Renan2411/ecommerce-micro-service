@@ -27,3 +27,16 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+gateway:
+  url: http://localhost:8765/
+  token-permissoes: CHAVE-INTEGRACAO
+
+security:
+  route-permissions:
+    - path: /usuarios/{id}
+      methods: [GET]
+      authorities: [ADMIN]
+    - path: /usuarios/cpf/{cpf}
+      methods: [GET]
+      authorities: [CLIENTE]
