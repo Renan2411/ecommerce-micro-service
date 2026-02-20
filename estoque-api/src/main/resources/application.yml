@@ -28,4 +28,16 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
+gateway:
+  url: http://localhost:8765/
+  token-permissoes: CHAVE-INTEGRACAO
 
+
+security:
+  route-permissions:
+    - path: /produtos
+      methods: [POST]
+      authorities: [ADMIN]
+    - path: /produtos
+      methods: [GET]
+      authorities: [CLIENTE]

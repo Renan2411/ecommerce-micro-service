@@ -11,12 +11,12 @@ POST http://localhost:8765/configuracao/permissoes
 
 ### GET request with a header
 GET http://localhost:8765/user-api/usuarios/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE3MDQ4MjYsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImF1dGhvcml0aWVzIjpbIkNMSUVOVEUiXSwianRpIjoiODFmYTJjN2QtM2JhYS00MjAyLWFkY2QtODNlNjEyZjJiMmRmIiwiY2xpZW50X2lkIjoibXlhcHBuYW1lMTIzIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.DzGk8W2NWmRFZyhwXkLul3ppAa-8Vfk1t7TKibjHD7U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE3MDkwMTYsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImF1dGhvcml0aWVzIjpbIkNMSUVOVEUiLCJBRE1JTiJdLCJqdGkiOiIyNDRiOWIzYy02YTM2LTQ4NTEtYTIxMS1kMzdjZWM4NTdjN2UiLCJjbGllbnRfaWQiOiJteWFwcG5hbWUxMjMiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.F56-BbsROGHXVogWBCLKZOcIyRYaGpdwxe_wIYtHrro
 
 ### GET request with a header
 GET http://localhost:8765/user-api/usuarios/cpf/1111111111
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE3MDQ4MjYsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImF1dGhvcml0aWVzIjpbIkNMSUVOVEUiXSwianRpIjoiODFmYTJjN2QtM2JhYS00MjAyLWFkY2QtODNlNjEyZjJiMmRmIiwiY2xpZW50X2lkIjoibXlhcHBuYW1lMTIzIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.DzGk8W2NWmRFZyhwXkLul3ppAa-8Vfk1t7TKibjHD7U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE3MDkwMTYsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImF1dGhvcml0aWVzIjpbIkNMSUVOVEUiLCJBRE1JTiJdLCJqdGkiOiIyNDRiOWIzYy02YTM2LTQ4NTEtYTIxMS1kMzdjZWM4NTdjN2UiLCJjbGllbnRfaWQiOiJteWFwcG5hbWUxMjMiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.F56-BbsROGHXVogWBCLKZOcIyRYaGpdwxe_wIYtHrro
 
 ### Send POST request with json body
 POST http://localhost:8765/user-api/usuarios
@@ -29,3 +29,20 @@ Content-Type: application/json
   "cpf": "3333333",
   "senha": "123"
 }
+
+### Send POST request with json body
+POST http://localhost:8765/estoque-api/produtos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE3MDkwMTYsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImF1dGhvcml0aWVzIjpbIkNMSUVOVEUiLCJBRE1JTiJdLCJqdGkiOiIyNDRiOWIzYy02YTM2LTQ4NTEtYTIxMS1kMzdjZWM4NTdjN2UiLCJjbGllbnRfaWQiOiJteWFwcG5hbWUxMjMiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.F56-BbsROGHXVogWBCLKZOcIyRYaGpdwxe_wIYtHrro
+Content-Type: application/json
+
+{
+  "nome": "Produto 1",
+  "descricao": "Produto de teste",
+  "valor": 123.35,
+  "quantidade": 10
+}
+
+### Send GET produtos
+GET http://localhost:8765/estoque-api/produtos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzE3MDkwMTYsInVzZXJfbmFtZSI6IjIyMjIyMjIyMiIsImF1dGhvcml0aWVzIjpbIkNMSUVOVEUiLCJBRE1JTiJdLCJqdGkiOiIyNDRiOWIzYy02YTM2LTQ4NTEtYTIxMS1kMzdjZWM4NTdjN2UiLCJjbGllbnRfaWQiOiJteWFwcG5hbWUxMjMiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.F56-BbsROGHXVogWBCLKZOcIyRYaGpdwxe_wIYtHrro
+Content-Type: application/json

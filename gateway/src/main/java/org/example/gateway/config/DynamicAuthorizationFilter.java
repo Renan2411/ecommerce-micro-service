@@ -1,5 +1,6 @@
 package org.example.gateway.config;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,30 +29,41 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     private RotasPermissionadas rotasPermissionadas;
 
+    @Autowired
+    private JsonUtils jsonUtils;
+
+    private String mensagemErroAoAcessarRota;
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         System.out.println(rotasPermissionadas.toString());
 
-        verificarAutenticacaoParaSetarPermissoes(httpServletRequest);
-        verificarPermissoes(httpServletRequest);
+        if (!usuarioPossuiTokenValidoParaConfiguracoesDePermissoesDeRotas(httpServletRequest, httpServletResponse)
+                || !usuarioPossuiPermissaoParaAcessoAhRota(httpServletRequest)) {
+            montarResponseError(httpServletResponse);
+            return;
+        }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-    private void verificarAutenticacaoParaSetarPermissoes(HttpServletRequest httpServletRequest) {
+    private boolean usuarioPossuiTokenValidoParaConfiguracoesDePermissoesDeRotas(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         if (httpServletRequest.getRequestURI().equals(URL_SET_PERMISSIONS)) {
             String header = httpServletRequest.getHeader("AUTH_TOKEN");
 
             if (Objects.isNull(header) || !header.equals(tokenPermissions)) {
-                throw new RuntimeException("Autenticação inválida!");
+                this.mensagemErroAoAcessarRota = "Token de autenticação inválido.";
+                return false;
             }
-
         }
+
+        return true;
     }
 
-    private void verificarPermissoes(HttpServletRequest httpServletRequest) {
-        if (rotasPermissionadas.getRoutePermissions().isEmpty()) return;
+    private boolean usuarioPossuiPermissaoParaAcessoAhRota(HttpServletRequest httpServletRequest) {
+        if (rotasPermissionadas.getRoutePermissions().isEmpty()) return true;
 
+        boolean possuiPermisao = true;
         String path = httpServletRequest.getRequestURI();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
 
@@ -63,14 +75,28 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
             if (!route.getMethods().contains(method)) continue;
 
             Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-            boolean possuiPermissao = authorities.stream().anyMatch(authoritie -> route.getAuthorities().contains(authoritie.toString()));
+            boolean possuiPermissaoNaRotaAtual = authorities.stream().anyMatch(authoritie -> route.getAuthorities().contains(authoritie.toString()));
 
-            if (!possuiPermissao) {
-                throw new RuntimeException("Usuário não possui permissão.");
+            if (!possuiPermissaoNaRotaAtual) {
+                mensagemErroAoAcessarRota = "Usuário não possuí permissão para acessar a rota.";
+                possuiPermisao = false;
             }
-
         }
 
+        return possuiPermisao;
     }
+
+    private void montarResponseError(HttpServletResponse httpServletResponse) throws IOException {
+        ApiErrorDTO apiErrorDTO = ApiErrorDTO.builder()
+                .status(HttpStatus.SC_FORBIDDEN)
+                .mensagem(mensagemErroAoAcessarRota)
+                .build();
+
+        httpServletResponse.setStatus(HttpStatus.SC_FORBIDDEN);
+        httpServletResponse.setContentType("applications/json");
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.getWriter().write(jsonUtils.toJson(apiErrorDTO));
+    }
+
 
 }
