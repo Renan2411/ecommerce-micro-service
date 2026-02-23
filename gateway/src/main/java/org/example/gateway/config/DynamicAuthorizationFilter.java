@@ -1,6 +1,7 @@
 package org.example.gateway.config;
 
 import org.apache.http.HttpStatus;
+import org.example.gateway.entities.dto.ApiErrorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +28,7 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
     private String tokenPermissions;
 
     @Autowired
-    private RotasPermissionadas rotasPermissionadas;
+    private RotasPermissionadasAuthFilter rotasPermissionadasAuthFilter;
 
     @Autowired
     private JsonUtils jsonUtils;
@@ -36,7 +37,7 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(rotasPermissionadas.toString());
+        System.out.println(rotasPermissionadasAuthFilter.toString());
 
         if (!usuarioPossuiTokenValidoParaConfiguracoesDePermissoesDeRotas(httpServletRequest, httpServletResponse)
                 || !usuarioPossuiPermissaoParaAcessoAhRota(httpServletRequest)) {
@@ -61,13 +62,13 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private boolean usuarioPossuiPermissaoParaAcessoAhRota(HttpServletRequest httpServletRequest) {
-        if (rotasPermissionadas.getRoutePermissions().isEmpty()) return true;
+        if (Objects.isNull(rotasPermissionadasAuthFilter) || rotasPermissionadasAuthFilter.getRoutePermissions().isEmpty()) return true;
 
         boolean possuiPermisao = true;
         String path = httpServletRequest.getRequestURI();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-        for (RotasPermissionadas.RoutePermission route : rotasPermissionadas.getRoutePermissions()) {
+        for (RotasPermissionadasAuthFilter.RoutePermission route : rotasPermissionadasAuthFilter.getRoutePermissions()) {
             if (!antPathMatcher.match(route.getUrl(), path)) continue;
 
             String method = httpServletRequest.getMethod();

@@ -1,4 +1,4 @@
-package org.example.gateway.config;
+package org.example.gateway.entities.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

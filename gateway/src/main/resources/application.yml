@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: gateway
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433 #url para acesso ao banco sqlserver
+    username: sa
+    password: P@ssword123
+  liquibase:
+    change-log: classpath:/migration/database/master.xml
+    database-change-log-table: DATABASECHANGELOG
+    database-change-log-lock-table: DATABASECHANGELOGLOCK
+    liquibase-schema: permissionamento
+
+server:
+  port: 8765
+
+oauth:
+  client:
+    name: myappname123
+    secret: myappscret123
+jwt:
+  secret: CHAVE_SECRETA
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+token-permissions: CHAVE-INTEGRACAO
+
+# Configuracao de Timeout
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 20000
+
+# Configuracao Zuul para rotear tudo da aplicacao pelo gateway
+zuul:
+  routes:
+    user:
+      service-id: user-api
+      path: /user-api/**
+    estoque:
+      service-id: estoque-api
+      path: /estoque-api/**
+    oauth:
+      service-id: auth
+      path: /auth/**
+      sensitive-headers: Cookie,Set-Cookie
