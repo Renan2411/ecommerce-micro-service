@@ -1,4 +1,4 @@
-package org.example.gateway.config;
+package org.example.gateway.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;

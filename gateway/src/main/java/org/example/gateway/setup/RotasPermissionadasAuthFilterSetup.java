@@ -1,7 +1,9 @@
-package org.example.gateway.config;
+package org.example.gateway.setup;
 
+import org.example.gateway.utils.RotasPermissionadasAuthFilterUtils;
 import org.example.gateway.entities.RotasPermissionadasEntity;
 import org.example.gateway.services.RotasPermissionadasService;
+import org.example.gateway.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-public class SetRotasPermissionadasAuthFilter implements CommandLineRunner {
+public class RotasPermissionadasAuthFilterSetup implements CommandLineRunner {
 
     @Autowired
-    private RotasPermissionadasAuthFilter rotasPermissionadasAuthFilter;
+    private RotasPermissionadasAuthFilterUtils rotasPermissionadasAuthFilterUtils;
 
     @Autowired
     private RotasPermissionadasService rotasPermissionadasService;
@@ -27,9 +29,9 @@ public class SetRotasPermissionadasAuthFilter implements CommandLineRunner {
         if (rotasPermissionadasEntities.isEmpty()) return;
 
         for (RotasPermissionadasEntity rotasPermissionadasEntity : rotasPermissionadasEntities) {
-            List<RotasPermissionadasAuthFilter.RoutePermission> rotas = jsonUtils.fromJsonList(rotasPermissionadasEntity.getPermissoes(), RotasPermissionadasAuthFilter.RoutePermission.class);
+            List<RotasPermissionadasAuthFilterUtils.RoutePermission> rotas = jsonUtils.fromJsonList(rotasPermissionadasEntity.getPermissoes(), RotasPermissionadasAuthFilterUtils.RoutePermission.class);
 
-            rotasPermissionadasAuthFilter.addRoute(rotas);
+            rotasPermissionadasAuthFilterUtils.adicionarRotas(rotas);
         }
     }
 }

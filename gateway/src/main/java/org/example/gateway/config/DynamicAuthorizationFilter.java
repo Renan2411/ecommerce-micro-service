@@ -2,6 +2,8 @@ package org.example.gateway.config;
 
 import org.apache.http.HttpStatus;
 import org.example.gateway.entities.dto.ApiErrorDTO;
+import org.example.gateway.utils.JsonUtils;
+import org.example.gateway.utils.RotasPermissionadasAuthFilterUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +30,7 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
     private String tokenPermissions;
 
     @Autowired
-    private RotasPermissionadasAuthFilter rotasPermissionadasAuthFilter;
+    private RotasPermissionadasAuthFilterUtils rotasPermissionadasAuthFilterUtils;
 
     @Autowired
     private JsonUtils jsonUtils;
@@ -37,7 +39,7 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(rotasPermissionadasAuthFilter.toString());
+        System.out.println(rotasPermissionadasAuthFilterUtils.toString());
 
         if (!usuarioPossuiTokenValidoParaConfiguracoesDePermissoesDeRotas(httpServletRequest, httpServletResponse)
                 || !usuarioPossuiPermissaoParaAcessoAhRota(httpServletRequest)) {
@@ -50,7 +52,7 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
 
     private boolean usuarioPossuiTokenValidoParaConfiguracoesDePermissoesDeRotas(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         if (httpServletRequest.getRequestURI().equals(URL_SET_PERMISSIONS)) {
-            String header = httpServletRequest.getHeader("AUTH_TOKEN");
+            String header = httpServletRequest.getHeader(HEADER_SET_PERMISSIONS);
 
             if (Objects.isNull(header) || !header.equals(tokenPermissions)) {
                 this.mensagemErroAoAcessarRota = "Token de autenticação inválido.";
@@ -62,13 +64,13 @@ public class DynamicAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private boolean usuarioPossuiPermissaoParaAcessoAhRota(HttpServletRequest httpServletRequest) {
-        if (Objects.isNull(rotasPermissionadasAuthFilter) || rotasPermissionadasAuthFilter.getRoutePermissions().isEmpty()) return true;
+        if (Objects.isNull(rotasPermissionadasAuthFilterUtils) || rotasPermissionadasAuthFilterUtils.getRoutePermissions().isEmpty()) return true;
 
         boolean possuiPermisao = true;
         String path = httpServletRequest.getRequestURI();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-        for (RotasPermissionadasAuthFilter.RoutePermission route : rotasPermissionadasAuthFilter.getRoutePermissions()) {
+        for (RotasPermissionadasAuthFilterUtils.RoutePermission route : rotasPermissionadasAuthFilterUtils.getRoutePermissions()) {
             if (!antPathMatcher.match(route.getUrl(), path)) continue;
 
             String method = httpServletRequest.getMethod();
